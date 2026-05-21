@@ -58,30 +58,6 @@ function App() {
     }
   };
 
-  const handleSaveColor = () => {
-    if (!selectedColor) return;
-    const data = { color: selectedColor, savedAt: new Date().toISOString() };
-    // save to localStorage
-    try {
-      const saved = JSON.parse(localStorage.getItem('savedColors') || '[]');
-      saved.push(data);
-      localStorage.setItem('savedColors', JSON.stringify(saved));
-    } catch (err) {
-      console.warn('Failed to save to localStorage', err);
-    }
-
-    // trigger download
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `color-${selectedColor.replace('#', '')}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <div style={{ padding: '20px' }}>
       {!showColorPicker ? (
@@ -108,12 +84,7 @@ function App() {
           />
           <div style={{ marginTop: '20px' }}>
             <p>Hovering: <span className="color-sample" style={{ color: hoverColor }}>{hoverColor}</span></p>
-            <p>
-              Selected: {selectedColor ? <span className="color-sample" style={{ color: selectedColor }}>{selectedColor}</span> : 'None'}
-              <button style={{ marginLeft: 12 }} onClick={handleSaveColor} disabled={!selectedColor}>
-                Save
-              </button>
-            </p>
+            <p>Selected: {selectedColor ? <span className="color-sample" style={{ color: selectedColor }}>{selectedColor}</span> : 'None'}</p>
           </div>
         </div>
       )}

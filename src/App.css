@@ -186,6 +186,6 @@
 /* Color sample text shown for hovering/selected values */
 .color-sample {
   font-size: 48px;
-  font-weight: bolder;
+  font-weight: 700;
   margin-left: 8px;
 }
