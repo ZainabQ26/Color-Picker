@@ -63,6 +63,7 @@ function App() {
         <div>
           <h1>My Home Page</h1>
           <p>Welcome! Click the button below to open the tool at your own risk.</p>
+          <p>The button will open the color picker hover to view click to lock.</p>
           <button onClick={() => setShowColorPicker(true)}>
             OPEN COLOR PICKER
           </button>
@@ -81,8 +82,8 @@ function App() {
             onClick={handleCanvasClick}
           />
           <div style={{ marginTop: '20px' }}>
-            <p>Hovering: <span style={{ color: hoverColor }}>{hoverColor}</span></p>
-            <p>Selected: {selectedColor ? <span style={{ color: selectedColor }}>{selectedColor}</span> : 'None'}</p>
+            <p>Hovering: <span className="color-sample" style={{ color: hoverColor }}>{hoverColor}</span></p>
+            <p>Selected: {selectedColor ? <span className="color-sample" style={{ color: selectedColor }}>{selectedColor}</span> : 'None'}</p>
           </div>
         </div>
       )}
