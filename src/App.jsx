@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const canvasRef = useRef(null);
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [selectedColor, setSelectedColor] = useState(null);
 
   useEffect(() => {
+    if (!showColorPicker) return;
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d'); 
-    const radius = canvas.width / 2; 
+    const ctx = canvas.getContext('2d');
+    const radius = canvas.width / 2;
     for (let x = 0; x < canvas.width; x++) {
       for (let y = 0; y < canvas.height; y++) {
         const dx = x - radius;
@@ -27,7 +29,7 @@ function App() {
         }
       }
     }
-  }, []);
+  }, [showColorPicker]);
 
   const handleMouseMove = (e) => {
     const canvas = canvasRef.current;
@@ -51,26 +53,41 @@ function App() {
     const pixel = ctx.getImageData(x, y, 1, 1).data;
     if (pixel[3] !== 0) {
       const hex = `#${((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1)}`;
-      setSelectedColor(hex); // <-- Swapped this to setSelectedColor!
+      setSelectedColor(hex);
     }
   };
 
-  return ( 
-    <div>
-      <canvas 
-        ref={canvasRef} 
-        width={300} 
-        height={300} 
-        onMouseMove={(e) => handleMouseMove(e)} 
-        onClick={(e) => handleCanvasClick(e)}
-      />
-      
-      <div style={{ marginTop: '20px' }}>
-        <p>Hovering: <span style={{ color: hoverColor }}>{hoverColor}</span></p>
-        <p>Selected: {selectedColor ? <span style={{ color: selectedColor }}>{selectedColor}</span> : 'None'}</p>
-      </div>
+  return (
+    <div style={{ padding: '20px' }}>
+      {!showColorPicker ? (
+        <div>
+          <h1>My Home Page</h1>
+          <p>Welcome! Click the button below to open the tool at your own risk.</p>
+          <button onClick={() => setShowColorPicker(true)}>
+            OPEN COLOR PICKER
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button onClick={() => setShowColorPicker(false)}>
+            HOME
+          </button>
+          <hr />
+          <canvas
+            ref={canvasRef}
+            width={300}
+            height={300}
+            onMouseMove={handleMouseMove}
+            onClick={handleCanvasClick}
+          />
+          <div style={{ marginTop: '20px' }}>
+            <p>Hovering: <span style={{ color: hoverColor }}>{hoverColor}</span></p>
+            <p>Selected: {selectedColor ? <span style={{ color: selectedColor }}>{selectedColor}</span> : 'None'}</p>
+          </div>
+        </div>
+      )}
     </div>
-  ); // <-- Removed the extra floating parenthetic clone
-} // <-- Added the missing closing curly brace for the App function
+  );
+}
 
 export default App;
