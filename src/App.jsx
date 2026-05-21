@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './App.css';
 
 function App() {
   const [showColorPicker, setShowColorPicker] = useState(false);
